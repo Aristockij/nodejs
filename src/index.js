@@ -14,7 +14,7 @@ const resolvers = require('./resolvers');
 const jwt = require('jsonwebtoken');
 
 // Запускаем сервер на порте, указанном в файле .env, или на порте 4000
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3020;
 // Сохраняем значение DB_HOST в виде переменной
 const DB_HOST = process.env.DB_HOST;
 
