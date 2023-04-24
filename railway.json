@@ -1,13 +1,261 @@
 {
-  "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "nixpacks",
-    "buildCommand": "echo building!"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "build": {
+      "type": "object",
+      "properties": {
+        "builder": {
+          "type": "string",
+          "enum": [
+            "NIXPACKS",
+            "DOCKERFILE",
+            "HEROKU",
+            "PAKETO"
+          ],
+          "description": "Set the builder for the deployment"
+        },
+        "watchPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buildCommand": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dockerfilePath": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nixpacksConfigPath": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nixpacksPlan": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "providers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "phases": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "dependsOn": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "cmds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "nixPkgs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "nixLibs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "aptPkgs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "nixOverlays": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "nixPkgsArchive": {
+                            "type": "string"
+                          },
+                          "includedFiles": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "cacheDirectories": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "paths": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "additionalProperties": false,
+                        "description": "Single Nixpacks phase"
+                      }
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "description": "Configuration for the build step"
+    },
+    "deploy": {
+      "type": "object",
+      "properties": {
+        "startCommand": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "healthcheckPath": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "healthcheckTimeout": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restartPolicyType": {
+          "type": "string",
+          "enum": [
+            "ON_FAILURE",
+            "ALWAYS",
+            "NEVER"
+          ],
+          "description": "How to handle the deployment crashing"
+        },
+        "restartPolicyMaxRetries": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": { }
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "description": "Configuration for the deploy step"
+    }
   },
-  "deploy": {
-    "startCommand": "echo starting!",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 100,
-    "restartPolicyType": "never"
-  }
+  "additionalProperties": false
 }
